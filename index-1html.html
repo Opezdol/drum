@@ -58,30 +58,40 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-    const playSound = (event) => {
-        const key = document.querySelector(`.keys [data-key="${event.keyCode}"]`);
-        const audioTag = document.querySelector(`audio[data-key="${event.keyCode}"]`);
 
-        //play musi
-        if (!audioTag) return;
-        audioTag.currentTime = 0; // play from start at each key press
-        audioTag.play();
 
-        //add css class while playing
-        key.classList.add('playing');
-        console.log(key.classList)
+  const playSound = (event) => {
+
+    const key = document.querySelector(`.keys [data-key="${event.keyCode}"]`);
+    const audioTag = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+
+    //play musi
+    if (!audioTag) return;
+    audioTag.currentTime = 0; // play from start at each key press
+    audioTag.play();
+
+    //add css class while playing
+    key.classList.add('playing');
     
-    }
+  }
 
-    const removeClass = (event) => {
-        const key = document.querySelector(`.keys [data-key="${event.keyCode}"]`);
-        try{key.classList.remove('playing');}
-        catch (e) {return}
+  const removeClass = (event) => {
+    const key = document.querySelector(`.keys [data-key="${event.keyCode}"]`);
+    try{key.classList.remove('playing');}
+    catch (e) {return}}
 
-    }
+   //o transition remove class
 
-    document.addEventListener('keydown', playSound);
-    document.addEventListener('keyup', removeClass);
+  const removeClass2 = (ev) => {
+    if(ev.propertyName !='transform') { return }
+    else{ev.target.classList.remove('playing')}
+  }
+
+  document.addEventListener('keydown', playSound);
+  const keys = document.querySelectorAll('.key');
+  keys.forEach((el) =>{el.addEventListener('transitionend', removeClass2)})
+  //document.addEventListener('keyup', removeClass);
+
 
 </script>
 
